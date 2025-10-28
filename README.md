@@ -19,13 +19,13 @@ An MCP (Model Context Protocol) server that provides comprehensive access to Emb
 
 ### Setup
 
-Using the latest release in your `mcpServers` configuration:
+Using the latest release in your configuration:
 ```jsonc
 {
-  "mcpServers": {
+  "servers": {
     "ember": {
       "command": "npx",
-      "args": ["-y", "ember-mcp@0.0.2"]
+      "args": ["-y", "ember-mcp"]
     }
   }
 }
@@ -37,7 +37,7 @@ Or if you need to ensure a specific shell environment is used:
   "servers": {
     "ember": {
       "command": "/opt/homebrew/bin/bash",
-      "args": ["-l", "-c", "pnpm dlx ember-mcp@0.0.2"]
+      "args": ["-l", "-c", "pnpm dlx ember-mcp"]
     }
   }
 }
@@ -48,7 +48,7 @@ Or if you need to ensure a specific shell environment is used:
 
 ```jsonc
 {
-  "mcpServers": {
+  "servers": {
     "ember": {
       "command": "npx",
       "args": ["-y", "github:NullVoxPopuli/ember-mcp#v0.0.2-ember-mcp"]
@@ -56,6 +56,8 @@ Or if you need to ensure a specific shell environment is used:
   }
 }
 ```
+
+Any syntax supported by npx would work here    
 
 </details>
 
@@ -77,7 +79,7 @@ Add this to your MCP servers configuration:
 
 ```json
 {
-  "mcpServers": {
+  "servers": {
     "ember-docs": {
       "command": "node",
       "args": ["/absolute/path/to/ember-mcp/index.js"]
@@ -90,6 +92,9 @@ Add this to your MCP servers configuration:
 </details>
 
 Then, restart your editor or its extension host
+
+> [!NOTE]
+> VSCode uses the `servers` key for all the MCP servers and Claud uses `mcpServers`
 
 ## Available Tools
 
