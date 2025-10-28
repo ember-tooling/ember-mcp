@@ -1,5 +1,18 @@
 # Changelog
 
+## Release (2025-10-28)
+
+* ember-mcp 0.0.4 (patch)
+
+#### :memo: Documentation
+* `ember-mcp`
+  * [#10](https://github.com/NullVoxPopuli/ember-mcp/pull/10) Drop versions for the default docs example ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#9](https://github.com/NullVoxPopuli/ember-mcp/pull/9) Update README with shell environment instructions ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+  * [#7](https://github.com/NullVoxPopuli/ember-mcp/pull/7) Revise README for Ember MCP Server and Node.js version ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 1
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2025-10-22)
 
 * ember-mcp 0.0.3 (patch)
