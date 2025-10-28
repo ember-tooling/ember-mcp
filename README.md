@@ -31,6 +31,18 @@ Using the latest release in your `mcpServers` configuration:
 }
 ```
 
+Or if you need to ensure a specific shell environment is used:
+```bash
+{
+  "servers": {
+    "ember": {
+      "command": "/opt/homebrew/bin/bash",
+      "args": ["-l", "-c", "pnpm dlx ember-mcp@0.0.2"]
+    }
+  }
+}
+```
+
 
 <details><summary>using a tag-release from github</summary>
 
