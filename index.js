@@ -7,6 +7,7 @@ import {
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 import { DocumentationService } from "./lib/documentation-service.js";
+import { NpmService } from "./lib/npm-service.js";
 import {
   formatSearchResults,
   formatApiReference,
@@ -29,6 +30,7 @@ class EmberDocsServer {
     );
 
     this.docService = new DocumentationService();
+    this.npmService = new NpmService();
     this.setupHandlers();
     this.setupErrorHandling();
   }
@@ -126,6 +128,43 @@ class EmberDocsServer {
             },
           },
         },
+        {
+          name: "get_npm_package_info",
+          description:
+            "Get comprehensive information about an npm package including latest version, description, dependencies, maintainers, and more. Essential for understanding package details before upgrading dependencies.",
+          inputSchema: {
+            type: "object",
+            properties: {
+              packageName: {
+                type: "string",
+                description:
+                  "Name of the npm package (e.g., 'ember-source', '@glimmer/component', 'ember-cli')",
+              },
+            },
+            required: ["packageName"],
+          },
+        },
+        {
+          name: "compare_npm_versions",
+          description:
+            "Compare a current package version with the latest available version on npm. Shows if an update is needed and provides version details to help with dependency upgrades.",
+          inputSchema: {
+            type: "object",
+            properties: {
+              packageName: {
+                type: "string",
+                description:
+                  "Name of the npm package (e.g., 'ember-source', '@glimmer/component')",
+              },
+              currentVersion: {
+                type: "string",
+                description:
+                  "Current version being used (e.g., '4.12.0', '1.1.2')",
+              },
+            },
+            required: ["packageName", "currentVersion"],
+          },
+        },
       ],
     }));
 
@@ -148,6 +187,12 @@ class EmberDocsServer {
 
           case "get_ember_version_info":
             return await this.handleGetVersionInfo(args);
+
+          case "get_npm_package_info":
+            return await this.handleGetNpmPackageInfo(args);
+
+          case "compare_npm_versions":
+            return await this.handleCompareNpmVersions(args);
 
           default:
             throw new Error(`Unknown tool: ${name}`);
@@ -257,6 +302,167 @@ class EmberDocsServer {
         },
       ],
     };
+  }
+
+  async handleGetNpmPackageInfo(args) {
+    const { packageName } = args;
+
+    try {
+      const packageInfo = await this.npmService.getPackageInfo(packageName);
+      const formatted = this.npmService.formatPackageInfo(packageInfo);
+
+      let text = `# ${formatted.name}\n\n`;
+      text += `**Description:** ${formatted.description}\n\n`;
+      text += `**Latest Version:** ${formatted.latestVersion}\n\n`;
+
+      // Dist tags
+      if (Object.keys(formatted.distTags).length > 0) {
+        text += `**Distribution Tags:**\n`;
+        for (const [tag, version] of Object.entries(formatted.distTags)) {
+          text += `  - ${tag}: ${version}\n`;
+        }
+        text += `\n`;
+      }
+
+      // Metadata
+      if (formatted.license) {
+        text += `**License:** ${formatted.license}\n`;
+      }
+      if (formatted.author) {
+        text += `**Author:** ${formatted.author}\n`;
+      }
+      if (formatted.homepage) {
+        text += `**Homepage:** ${formatted.homepage}\n`;
+      }
+      if (formatted.repository) {
+        text += `**Repository:** ${formatted.repository}\n`;
+      }
+
+      // Keywords
+      if (formatted.keywords.length > 0) {
+        text += `\n**Keywords:** ${formatted.keywords.join(', ')}\n`;
+      }
+
+      // Dependencies
+      const depCount = Object.keys(formatted.dependencies).length;
+      const devDepCount = Object.keys(formatted.devDependencies).length;
+      const peerDepCount = Object.keys(formatted.peerDependencies).length;
+
+      if (depCount > 0 || devDepCount > 0 || peerDepCount > 0) {
+        text += `\n**Dependencies:**\n`;
+        if (depCount > 0) {
+          text += `  - ${depCount} runtime dependencies\n`;
+        }
+        if (peerDepCount > 0) {
+          text += `  - ${peerDepCount} peer dependencies\n`;
+        }
+        if (devDepCount > 0) {
+          text += `  - ${devDepCount} dev dependencies\n`;
+        }
+      }
+
+      // Engines
+      if (Object.keys(formatted.engines).length > 0) {
+        text += `\n**Engine Requirements:**\n`;
+        for (const [engine, version] of Object.entries(formatted.engines)) {
+          text += `  - ${engine}: ${version}\n`;
+        }
+      }
+
+      // Dates
+      if (formatted.created) {
+        text += `\n**Created:** ${new Date(formatted.created).toLocaleDateString()}\n`;
+      }
+      if (formatted.lastPublished) {
+        text += `**Last Published:** ${new Date(formatted.lastPublished).toLocaleDateString()}\n`;
+      }
+
+      // Maintainers
+      if (formatted.maintainers.length > 0) {
+        text += `\n**Maintainers:** ${formatted.maintainers.length} maintainer(s)\n`;
+      }
+
+      return {
+        content: [
+          {
+            type: "text",
+            text: text,
+          },
+        ],
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Error fetching package information: ${error.message}`,
+          },
+        ],
+        isError: true,
+      };
+    }
+  }
+
+  async handleCompareNpmVersions(args) {
+    const { packageName, currentVersion } = args;
+
+    try {
+      const comparison = await this.npmService.getVersionComparison(packageName, currentVersion);
+
+      let text = `# Version Comparison: ${comparison.packageName}\n\n`;
+      text += `**Current Version:** ${comparison.currentVersion}\n`;
+      text += `**Latest Version:** ${comparison.latestVersion}\n\n`;
+
+      if (comparison.isLatest) {
+        text += `✅ **Status:** You are using the latest version!\n\n`;
+      } else {
+        text += `⚠️ **Status:** An update is available.\n\n`;
+      }
+
+      // Dist tags
+      if (Object.keys(comparison.distTags).length > 0) {
+        text += `**Available Tags:**\n`;
+        for (const [tag, version] of Object.entries(comparison.distTags)) {
+          const isCurrent = version === comparison.currentVersion ? ' (current)' : '';
+          text += `  - ${tag}: ${version}${isCurrent}\n`;
+        }
+        text += `\n`;
+      }
+
+      // Release dates
+      if (comparison.currentVersionReleaseDate) {
+        text += `**Current Version Released:** ${new Date(comparison.currentVersionReleaseDate).toLocaleDateString()}\n`;
+      }
+      if (comparison.releaseDate) {
+        text += `**Latest Version Released:** ${new Date(comparison.releaseDate).toLocaleDateString()}\n`;
+      }
+
+      text += `\n**Total Available Versions:** ${comparison.availableVersionsCount}\n`;
+
+      if (comparison.needsUpdate) {
+        text += `\n**Recommendation:** Consider updating to version ${comparison.latestVersion}. `;
+        text += `Use \`get_npm_package_info\` to see more details about the latest version.`;
+      }
+
+      return {
+        content: [
+          {
+            type: "text",
+            text: text,
+          },
+        ],
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Error comparing versions: ${error.message}`,
+          },
+        ],
+        isError: true,
+      };
+    }
   }
 
   async run() {

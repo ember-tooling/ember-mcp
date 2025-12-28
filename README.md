@@ -8,6 +8,7 @@ An MCP (Model Context Protocol) server that provides comprehensive access to Emb
 - **API References**: Get detailed API documentation for Ember classes, modules, and methods
 - **Best Practices**: Access curated best practices and modern patterns for Ember development
 - **Version Information**: Stay up-to-date with Ember versions and migration guides
+- **npm Package Tools**: Get the latest package versions and dependency information from npm registry
 - **Smart Search**: Intelligent search with relevance ranking across all documentation sources
 
 ## Installation
@@ -149,6 +150,33 @@ Get information about Ember versions, including current stable version, recent r
 What's new in the latest Ember version?
 ```
 
+### 5. `get_npm_package_info`
+
+Get comprehensive information about an npm package including latest version, description, dependencies, maintainers, and more.
+
+**Parameters:**
+- `packageName` (required): Name of the npm package (e.g., 'ember-source', '@glimmer/component')
+
+**Example:**
+```
+What's the latest version of ember-source?
+Get information about @glimmer/component package
+```
+
+### 6. `compare_npm_versions`
+
+Compare a current package version with the latest available version on npm. Shows if an update is needed and provides version details to help with dependency upgrades.
+
+**Parameters:**
+- `packageName` (required): Name of the npm package
+- `currentVersion` (required): Current version being used (e.g., '4.12.0')
+
+**Example:**
+```
+I'm using ember-source 4.12.0, should I upgrade?
+Compare my current version of @glimmer/component (1.1.2) with the latest
+```
+
 ## Usage Examples
 
 ### Getting Started with a New Feature
@@ -183,6 +211,18 @@ The agent will:
 1. Use get_ember_version_info to get migration information
 2. Use get_best_practices for modern patterns replacing deprecated ones
 3. Use search_ember_docs to find upgrade guides
+```
+
+### Dependency Management
+
+```
+User: Help me upgrade my Ember dependencies. I'm on ember-source 4.8.0
+
+The agent will:
+1. Use get_npm_package_info to get the latest ember-source information
+2. Use compare_npm_versions to check if an update is available
+3. Use get_ember_version_info for migration guides
+4. Check other related packages for compatibility
 ```
 
 ## Data Source
