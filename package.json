@@ -20,6 +20,7 @@
   "bin": {
     "ember-mcp": "./index.js"
   },
+  "packageManager": "pnpm@10.26.2",
   "scripts": {
     "dev": "node --watch index.js",
     "start": "node index.js",
