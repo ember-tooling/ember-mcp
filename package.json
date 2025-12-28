@@ -20,6 +20,7 @@
   "bin": {
     "ember-mcp": "./index.js"
   },
+  "packageManager": "pnpm@10.26.2",
   "scripts": {
     "dev": "node --watch index.js",
     "start": "node index.js",
@@ -33,7 +34,8 @@
     "pluralize": "^8.0.0"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "^4.0.16",
     "release-plan": "^0.17.0",
-    "vitest": "^3.2.4"
+    "vitest": "^4.0.16"
   }
 }
