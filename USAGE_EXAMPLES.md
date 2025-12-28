@@ -162,6 +162,48 @@ Categories available:
 - ✅ Testing approaches
 - ✅ Performance optimization
 - ✅ Migration guidance
+- ✅ npm package information and dependency upgrades
+
+## npm Package Tools
+
+The server includes tools for working with npm packages, which is especially useful for managing dependencies:
+
+### Example: Checking Package Versions
+
+**User:** "What's the latest version of ember-source?"
+
+**What Claude will do:**
+1. Use `get_npm_package_info` with packageName "ember-source"
+2. Show comprehensive package information including:
+   - Latest stable version
+   - Distribution tags (latest, beta, lts, etc.)
+   - Dependencies
+   - License and maintainer info
+   - Homepage and repository links
+
+### Example: Comparing Versions for Upgrades
+
+**User:** "I'm on ember-source 4.12.0. Should I upgrade?"
+
+**What Claude will do:**
+1. Use `compare_npm_versions` with packageName "ember-source" and currentVersion "4.12.0"
+2. Show:
+   - Whether you're on the latest version
+   - What the latest version is
+   - Available distribution tags
+   - Release dates for comparison
+   - Recommendation on whether to upgrade
+
+### Example: Planning Dependency Upgrades
+
+**User:** "Help me upgrade my Ember dependencies. Here's my package.json..."
+
+**What Claude will do:**
+1. Parse your current versions
+2. Use `get_npm_package_info` and `compare_npm_versions` for each package
+3. Identify which packages need updates
+4. Provide guidance on compatibility and upgrade order
+5. Use `get_ember_version_info` for migration guides if needed
 
 ## What To Use Official Docs For
 

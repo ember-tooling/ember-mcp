@@ -412,4 +412,35 @@ When building Ember applications, routing is a critical concern. Here are some b
       expect(results).toBeInstanceOf(Array);
     });
   });
+
+  describe('npm Tools Integration', () => {
+    it('should get package info and format it correctly', async () => {
+      // Import inline to avoid circular dependencies
+      const { NpmService } = await import('../lib/npm-service.js');
+      const npmService = new NpmService();
+
+      const packageInfo = await npmService.getPackageInfo('ember-source');
+      const formatted = npmService.formatPackageInfo(packageInfo);
+
+      expect(formatted.name).toBe('ember-source');
+      expect(formatted.latestVersion).toBeDefined();
+      expect(formatted.distTags).toBeDefined();
+      expect(formatted.distTags.latest).toBeDefined();
+      expect(formatted.description).toBeDefined();
+    });
+
+    it('should compare versions correctly', async () => {
+      const { NpmService } = await import('../lib/npm-service.js');
+      const npmService = new NpmService();
+
+      // Use an older version that we know isn't the latest
+      const comparison = await npmService.getVersionComparison('ember-source', '3.0.0');
+
+      expect(comparison.packageName).toBe('ember-source');
+      expect(comparison.currentVersion).toBe('3.0.0');
+      expect(comparison.latestVersion).toBeDefined();
+      expect(comparison.isLatest).toBe(false);
+      expect(comparison.needsUpdate).toBe(true);
+    });
+  });
 });

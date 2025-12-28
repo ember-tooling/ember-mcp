@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+#### :rocket: Enhancement
+* `ember-mcp`
+  * [#15](https://github.com/ember-tooling/ember-mcp/issues/15) Add npm package tools for dependency management
+    - New tool: `get_npm_package_info` - Get comprehensive information about npm packages
+    - New tool: `compare_npm_versions` - Compare current package versions with latest available
+    - Helps agents upgrade dependencies and check package versions
+
 ## Release (2025-10-22)
 
 * ember-mcp 0.0.3 (patch)
