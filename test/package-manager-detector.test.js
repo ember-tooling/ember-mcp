@@ -139,9 +139,11 @@ describe('PackageManagerDetector', () => {
 
       const formatted = detector.formatDetectionResult(result);
 
-      expect(formatted).toContain('npm requires `--`');
+      expect(formatted).toContain('npm-specific notes');
       expect(formatted).toContain('npm install');
       expect(formatted).toContain('npm uninstall');
+      expect(formatted).toContain('npx <command>');
+      expect(formatted).toContain('Pass args to scripts with `--`');
     });
 
     it('should include warning for low confidence', () => {
