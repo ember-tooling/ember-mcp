@@ -8,6 +8,7 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import { DocumentationService } from "./lib/documentation-service.js";
 import { NpmService } from "./lib/npm-service.js";
+import { PackageManagerDetector } from "./lib/package-manager-detector.js";
 import {
   formatSearchResults,
   formatApiReference,
@@ -31,6 +32,7 @@ class EmberDocsServer {
 
     this.docService = new DocumentationService();
     this.npmService = new NpmService();
+    this.packageManagerDetector = new PackageManagerDetector();
     this.setupHandlers();
     this.setupErrorHandling();
   }
@@ -165,6 +167,22 @@ class EmberDocsServer {
             required: ["packageName", "currentVersion"],
           },
         },
+        {
+          name: "detect_package_manager",
+          description:
+            "Detect which package manager (pnpm, yarn, npm, bun) is being used in a workspace by examining lockfiles and package.json. Returns the appropriate commands to use for installing dependencies, running scripts, and executing packages. Use this tool BEFORE suggesting package installation or script execution commands to ensure you use the correct package manager.",
+          inputSchema: {
+            type: "object",
+            properties: {
+              workspacePath: {
+                type: "string",
+                description:
+                  "Absolute path to the workspace directory to analyze (e.g., '/path/to/project')",
+              },
+            },
+            required: ["workspacePath"],
+          },
+        },
       ],
     }));
 
@@ -193,6 +211,9 @@ class EmberDocsServer {
 
           case "compare_npm_versions":
             return await this.handleCompareNpmVersions(args);
+
+          case "detect_package_manager":
+            return await this.handleDetectPackageManager(args);
 
           default:
             throw new Error(`Unknown tool: ${name}`);
@@ -458,6 +479,34 @@ class EmberDocsServer {
           {
             type: "text",
             text: `Error comparing versions: ${error.message}`,
+          },
+        ],
+        isError: true,
+      };
+    }
+  }
+
+  async handleDetectPackageManager(args) {
+    const { workspacePath } = args;
+
+    try {
+      const result = await this.packageManagerDetector.detectPackageManager(workspacePath);
+      const formattedResult = this.packageManagerDetector.formatDetectionResult(result);
+
+      return {
+        content: [
+          {
+            type: "text",
+            text: formattedResult,
+          },
+        ],
+      };
+    } catch (error) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Error detecting package manager: ${error.message}`,
           },
         ],
         isError: true,

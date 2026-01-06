@@ -4,6 +4,10 @@
 
 #### :rocket: Enhancement
 * `ember-mcp`
+  * [#12](https://github.com/ember-tooling/ember-mcp/issues/12) Add package manager detection tool
+    - New tool: `detect_package_manager` - Automatically detect which package manager (pnpm, yarn, npm, bun) is being used in a workspace
+    - Provides correct commands for the detected package manager
+    - Helps AI agents avoid using npm/npx when project uses a different package manager
   * [#15](https://github.com/ember-tooling/ember-mcp/issues/15) Add npm package tools for dependency management
     - New tool: `get_npm_package_info` - Get comprehensive information about npm packages
     - New tool: `compare_npm_versions` - Compare current package versions with latest available

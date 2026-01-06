@@ -10,7 +10,7 @@ After adding the MCP server to your Claude Desktop configuration, you should see
 What MCP tools do you have available for Ember?
 ```
 
-Claude should list the four Ember documentation tools.
+Claude should list the seven Ember documentation tools.
 
 ## Example Conversations
 
@@ -163,6 +163,7 @@ Categories available:
 - ✅ Performance optimization
 - ✅ Migration guidance
 - ✅ npm package information and dependency upgrades
+- ✅ Package manager detection (pnpm, yarn, npm, bun)
 
 ## npm Package Tools
 
@@ -194,16 +195,39 @@ The server includes tools for working with npm packages, which is especially use
    - Release dates for comparison
    - Recommendation on whether to upgrade
 
+### Example: Detecting Package Manager
+
+**User:** "I want to add ember-concurrency to my project at /path/to/my-ember-app"
+
+**What Claude will do:**
+1. Use `detect_package_manager` with workspacePath "/path/to/my-ember-app"
+2. Detect the package manager by checking for:
+   - `pnpm-lock.yaml` → pnpm
+   - `yarn.lock` → yarn
+   - `package-lock.json` → npm
+   - `bun.lockb` → bun
+   - `packageManager` field in package.json
+3. Show you the correct commands:
+   - Install command (e.g., `pnpm install`)
+   - Add package command (e.g., `pnpm add ember-concurrency`)
+   - Run script command (e.g., `pnpm run test`)
+   - Execute package command (e.g., `pnpm dlx`)
+4. Provide the correct command with the detected package manager
+
+**Why this matters:** Many projects use pnpm or yarn instead of npm, and using the wrong package manager can cause lockfile inconsistencies and dependency resolution issues.
+
 ### Example: Planning Dependency Upgrades
 
 **User:** "Help me upgrade my Ember dependencies. Here's my package.json..."
 
 **What Claude will do:**
-1. Parse your current versions
-2. Use `get_npm_package_info` and `compare_npm_versions` for each package
-3. Identify which packages need updates
-4. Provide guidance on compatibility and upgrade order
-5. Use `get_ember_version_info` for migration guides if needed
+1. Use `detect_package_manager` to determine which package manager to use
+2. Parse your current versions
+3. Use `get_npm_package_info` and `compare_npm_versions` for each package
+4. Identify which packages need updates
+5. Provide guidance on compatibility and upgrade order
+6. Use `get_ember_version_info` for migration guides if needed
+7. Provide commands using the correct package manager
 
 ## What To Use Official Docs For
 
