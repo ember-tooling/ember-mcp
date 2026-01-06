@@ -9,6 +9,7 @@ An MCP (Model Context Protocol) server that provides comprehensive access to Emb
 - **Best Practices**: Access curated best practices and modern patterns for Ember development
 - **Version Information**: Stay up-to-date with Ember versions and migration guides
 - **npm Package Tools**: Get the latest package versions and dependency information from npm registry
+- **Package Manager Detection**: Automatically detect which package manager (pnpm, yarn, npm, bun) is being used in a workspace to provide the correct commands
 - **Smart Search**: Intelligent search with relevance ranking across all documentation sources
 
 ## Installation
@@ -177,6 +178,22 @@ I'm using ember-source 4.12.0, should I upgrade?
 Compare my current version of @glimmer/component (1.1.2) with the latest
 ```
 
+### 7. `detect_package_manager`
+
+Detect which package manager (pnpm, yarn, npm, bun) is being used in a workspace by examining lockfiles and package.json. Returns the appropriate commands to use for installing dependencies, running scripts, and executing packages.
+
+**Parameters:**
+- `workspacePath` (required): Absolute path to the workspace directory to analyze (e.g., '/path/to/project')
+
+**Example:**
+```
+What package manager should I use in this project?
+Which commands should I use to install dependencies?
+```
+
+**Why this is important:**
+AI agents often default to using `npm` or `npx` commands, but many projects use different package managers. Using the wrong package manager can cause issues with lockfile consistency and dependency resolution. This tool ensures the AI always uses the correct commands for the project.
+
 ## Usage Examples
 
 ### Getting Started with a New Feature
@@ -219,10 +236,23 @@ The agent will:
 User: Help me upgrade my Ember dependencies. I'm on ember-source 4.8.0
 
 The agent will:
-1. Use get_npm_package_info to get the latest ember-source information
-2. Use compare_npm_versions to check if an update is available
-3. Use get_ember_version_info for migration guides
-4. Check other related packages for compatibility
+1. Use detect_package_manager to determine which package manager the project uses
+2. Use get_npm_package_info to get the latest ember-source information
+3. Use compare_npm_versions to check if an update is available
+4. Use get_ember_version_info for migration guides
+5. Check other related packages for compatibility
+6. Provide commands using the correct package manager
+```
+
+### Package Manager Awareness
+
+```
+User: I want to add ember-concurrency to my project
+
+The agent will:
+1. Use detect_package_manager to check the workspace's package manager
+2. Provide the correct command (pnpm add, yarn add, npm install, or bun add)
+3. Avoid suggesting npm/npx when the project uses a different package manager
 ```
 
 ## Data Source
