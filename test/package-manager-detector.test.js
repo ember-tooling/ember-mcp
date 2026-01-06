@@ -205,9 +205,31 @@ describe('PackageManagerDetector', () => {
       expect(formatted).toContain('**Package Manager:** pnpm');
       expect(formatted).toContain('pnpm install');
       expect(formatted).toContain('pnpm run');
+      expect(formatted).toContain('pnpm add');
       expect(formatted).toContain('**Lockfile:** pnpm-lock.yaml');
       expect(formatted).toContain('**Detection Method:** lockfile');
       expect(formatted).toContain('**Confidence:** high');
+    });
+
+    it('should format npm detection result with special commands', () => {
+      const result = {
+        manager: 'npm',
+        command: 'npm',
+        runner: 'npx',
+        lockfile: 'package-lock.json',
+        detectionMethod: 'lockfile',
+        confidence: 'high',
+      };
+
+      const formatted = detector.formatDetectionResult(result);
+
+      expect(formatted).toContain('**Package Manager:** npm');
+      expect(formatted).toContain('npm install');
+      expect(formatted).toContain('npm run');
+      expect(formatted).toContain('npx <command>');
+      expect(formatted).toContain('npm uninstall');
+      expect(formatted).toContain('--');
+      expect(formatted).toContain('note the `--` separator');
     });
 
     it('should include warning for low confidence', () => {
