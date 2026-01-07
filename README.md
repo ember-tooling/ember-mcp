@@ -2,6 +2,16 @@
 
 An MCP (Model Context Protocol) server that provides comprehensive access to Ember documentation, API references, guides, and community best practices.
 
+## ⚠️ Disclaimer
+
+**Use at your own risk.** This MCP server interacts with your project files and executes commands. While the MCP server itself does not directly suggest harmful commands, it provides tools to AI agents that may suggest harmful or destructive operations. We are not responsible for any harm to your projects, including but not limited to:
+- Deletion of code
+- Deletion of folders/files outside of your project
+- Unintended modifications to your codebase
+- Any other adverse effects
+
+Always review generated commands and changes before applying them, and ensure you have proper version control and backups in place.
+
 ## Features
 
 - **Complete Documentation Access**: Search through official Ember.js API docs, guides, and community articles
