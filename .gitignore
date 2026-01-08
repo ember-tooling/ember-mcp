@@ -3,5 +3,9 @@ node_modules/
 .DS_Store
 .env
 
+# Package manager lock files (we use pnpm)
+package-lock.json
+yarn.lock
+
 # Test coverage
 coverage/

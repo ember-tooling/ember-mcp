@@ -15,6 +15,10 @@ Always review generated commands and changes before applying them, and ensure yo
 ## Features
 
 - **Complete Documentation Access**: Search through official Ember.js API docs, guides, and community articles
+- **Hybrid Search**: Combines keyword-based and semantic (embedding-based) search for better results
+  - Semantic search using machine learning embeddings to understand query meaning beyond keywords
+  - Finds relevant content even when exact keywords don't match
+  - Automatically falls back to keyword search if embedding models can't be loaded
 - **API References**: Get detailed API documentation for Ember classes, modules, and methods
 - **Best Practices**: Access curated best practices and modern patterns for Ember development
 - **Version Information**: Stay up-to-date with Ember versions and migration guides
@@ -290,10 +294,12 @@ This MCP server is specifically designed to promote Ember best practices by:
 
 ## Development
 
+This project uses **pnpm** as its package manager (see `packageManager` field in `package.json`).
+
 ### Running the Server Directly
 
 ```bash
-npm start
+pnpm start
 ```
 
 The server communicates over stdio and expects MCP protocol messages.
@@ -301,7 +307,7 @@ The server communicates over stdio and expects MCP protocol messages.
 ### Development Mode
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 Uses Node's `--watch` flag for automatic restarts during development.
@@ -312,13 +318,27 @@ The server consists of:
 
 - **index.js**: Main MCP server implementation with tool handlers
 - **lib/documentation-service.js**: Documentation parsing, indexing, and search logic
+- **lib/embedding-service.js**: Semantic search using machine learning embeddings
+- **lib/npm-service.js**: npm registry integration
+- **lib/package-manager-detector.js**: Package manager detection logic
 
 The documentation service:
 1. Fetches the full documentation on startup
 2. Parses it into searchable sections
 3. Indexes API documentation for fast lookup
-4. Provides smart search with relevance ranking
-5. Extracts best practices and examples
+4. Builds embedding index for semantic search (when internet is available on first run)
+5. Provides hybrid keyword + semantic search with relevance ranking
+6. Extracts best practices and examples
+
+### Semantic Search
+
+The server uses HuggingFace's Transformers.js to provide semantic search capabilities:
+- On first run, downloads a lightweight embedding model (all-MiniLM-L6-v2)
+- Model is cached locally for subsequent runs
+- Embeddings are generated for documentation sections in the background
+- Search combines both keyword matching and semantic similarity
+- Gracefully falls back to keyword-only search if the model can't be loaded
+- No external API calls needed - all processing is local
 
 ## Troubleshooting
 
