@@ -294,10 +294,12 @@ This MCP server is specifically designed to promote Ember best practices by:
 
 ## Development
 
+This project uses **pnpm** as its package manager (see `packageManager` field in `package.json`).
+
 ### Running the Server Directly
 
 ```bash
-npm start
+pnpm start
 ```
 
 The server communicates over stdio and expects MCP protocol messages.
@@ -305,7 +307,7 @@ The server communicates over stdio and expects MCP protocol messages.
 ### Development Mode
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 Uses Node's `--watch` flag for automatic restarts during development.
