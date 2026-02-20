@@ -29,7 +29,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.0.4",
+    "@modelcontextprotocol/sdk": "^1.26.0",
     "node-fetch": "^3.3.2",
     "pluralize": "^8.0.0"
   },
@@ -37,5 +37,10 @@
     "@vitest/coverage-v8": "^4.0.16",
     "release-plan": "^0.17.0",
     "vitest": "^4.0.16"
+  },
+  "pnpm": {
+    "overrides": {
+      "tar": "^7.5.9"
+    }
   }
 }
