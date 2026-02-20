@@ -10,8 +10,8 @@
     "model-context-protocol"
   ],
   "repository": {
-    "type": "git",
-    "url": "git@github.com:NullVoxPopuli/ember-mcp.git"
+    "type": "https",
+    "url": "https://github.com/NullVoxPopuli/ember-mcp"
   },
   "license": "MIT",
   "author": "",
