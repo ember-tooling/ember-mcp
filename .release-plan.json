@@ -1,11 +1,15 @@
 {
   "solution": {
     "ember-mcp": {
-      "impact": "patch",
-      "oldVersion": "0.0.2",
-      "newVersion": "0.0.3",
+      "impact": "minor",
+      "oldVersion": "0.0.3",
+      "newVersion": "0.1.0",
       "tagName": "latest",
       "constraints": [
+        {
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
+        },
         {
           "impact": "patch",
           "reason": "Appears in changelog section :bug: Bug Fix"
@@ -13,10 +17,14 @@
         {
           "impact": "patch",
           "reason": "Appears in changelog section :memo: Documentation"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2025-10-22)\n\n* ember-mcp 0.0.3 (patch)\n\n#### :bug: Bug Fix\n* `ember-mcp`\n  * [#4](https://github.com/NullVoxPopuli/ember-mcp/pull/4) Fix release info ([@wagenet](https://github.com/wagenet))\n\n#### :memo: Documentation\n* `ember-mcp`\n  * [#6](https://github.com/NullVoxPopuli/ember-mcp/pull/6) Add more detailed setup insturctions ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 2\n- Peter Wagenet ([@wagenet](https://github.com/wagenet))\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
+  "description": "## Release (2026-02-20)\n\n* ember-mcp 0.1.0 (minor)\n\n#### :rocket: Enhancement\n* `ember-mcp`\n  * [#19](https://github.com/ember-tooling/ember-mcp/pull/19) Add package manager detection tool and update documentation ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#16](https://github.com/ember-tooling/ember-mcp/pull/16) Add tools for getting latest npm versions ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### :bug: Bug Fix\n* `ember-mcp`\n  * [#23](https://github.com/ember-tooling/ember-mcp/pull/23) Fix npm audit vulnerabilities: upgrade @modelcontextprotocol/sdk and override tar ([@Copilot](https://github.com/apps/copilot-swe-agent))\n\n#### :memo: Documentation\n* `ember-mcp`\n  * [#20](https://github.com/ember-tooling/ember-mcp/pull/20) Add disclaimer section to README for user safety and risk awareness ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#10](https://github.com/ember-tooling/ember-mcp/pull/10) Drop versions for the default docs example ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#9](https://github.com/ember-tooling/ember-mcp/pull/9) Update README with shell environment instructions ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#7](https://github.com/ember-tooling/ember-mcp/pull/7) Revise README for Ember MCP Server and Node.js version ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### :house: Internal\n* `ember-mcp`\n  * [#32](https://github.com/ember-tooling/ember-mcp/pull/32) Update release-plan ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n  * [#21](https://github.com/ember-tooling/ember-mcp/pull/21) Add GitHub Copilot instructions and VSCode settings with ember-mcp MCP server integration ([@Copilot](https://github.com/apps/copilot-swe-agent))\n  * [#17](https://github.com/ember-tooling/ember-mcp/pull/17) Add test ci job ([@NullVoxPopuli](https://github.com/NullVoxPopuli))\n\n#### Committers: 2\n- Copilot [Bot] ([@copilot-swe-agent](https://github.com/apps/copilot-swe-agent))\n- [@NullVoxPopuli](https://github.com/NullVoxPopuli)\n"
 }
