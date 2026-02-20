@@ -37,5 +37,10 @@
     "@vitest/coverage-v8": "^4.0.16",
     "release-plan": "^0.17.0",
     "vitest": "^4.0.16"
+  },
+  "pnpm": {
+    "overrides": {
+      "tar": "^7.5.9"
+    }
   }
 }
