@@ -1,5 +1,10 @@
 # Changelog
 
+
+
+
+
+
 ## Release (2026-02-20)
 
 * ember-mcp 0.1.0 (minor)
