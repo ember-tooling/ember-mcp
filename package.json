@@ -30,9 +30,9 @@
     "pluralize": "^8.0.0"
   },
   "devDependencies": {
-    "@vitest/coverage-v8": "^4.0.16",
+    "@vitest/coverage-v8": "^5.0.0",
     "release-plan": "^0.18.0",
-    "vitest": "^4.0.16"
+    "vitest": "^5.0.0"
   },
   "packageManager": "pnpm@10.34.5",
   "pnpm": {
