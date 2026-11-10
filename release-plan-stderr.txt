@@ -1,0 +1,7 @@
+# Unlabeled Changes
+
+* `ember-mcp`
+  * [#47](https://github.com/ember-tooling/ember-mcp/pull/47) AI policy ([@les2](https://github.com/les2))
+
+
+*Cannot plan release until the above changes are labeled*.
